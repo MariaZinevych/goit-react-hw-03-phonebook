@@ -16,6 +16,19 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const savedFilter = localStorage.getItem('phoneContact');
+    if (savedFilter !== null) {
+      this.setState({ contacts: JSON.parse(savedFilter) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('phoneContact', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addQuiz = newQuiz => {
     const isInContacts = this.state.contacts.some(
       ({ name }) => name.toLowerCase() === newQuiz.name.toLowerCase()
